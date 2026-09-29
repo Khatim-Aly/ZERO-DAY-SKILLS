@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FL.Slayer — Zero-Day Skills Roadmap</title>
+<title>FL.Slayer — AI Agent Zero-Day Skills Roadmap</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -88,8 +88,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 ██╔══╝  ██║         ╚════██║██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗
 ██║     ███████╗    ███████║███████╗██║  ██║   ██║   ███████╗██║  ██║
 ╚═╝     ╚══════╝    ╚══════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝</pre>
-<h1>Zero-Day Discovery Skills Roadmap</h1>
-<p>Complete skill matrix for vulnerability research, zero-day hunting, red team operations and elite bug bounty</p>
+<h1>AI Agent Zero-Day Discovery Skill Roadmap</h1>
+<p>Complete capability matrix for an AI security-research agent — vulnerability research, zero-day hunting, red team operations and elite bug bounty</p>
 <div class="stats">
   <div class="stat"><div class="stat-n" id="total-skills">0</div><div class="stat-l">Total Skills</div></div>
   <div class="stat"><div class="stat-n" style="color:var(--red)">12</div><div class="stat-l">Domains</div></div>
@@ -103,7 +103,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 <div class="container">
 
 <div class="roadmap">
-<h2>⚡ Zero-Day Hunter Learning Phases</h2>
+<h2>⚡ Zero-Day Hunter Agent — Capability Phases</h2>
 <div class="phase-row">
   <div class="phase-num">1</div>
   <div class="phase-content">
@@ -180,12 +180,12 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 
 </div>
 
-<footer>FL.Slayer Zero-Day Skills Roadmap &nbsp;|&nbsp; For authorized security research only &nbsp;|&nbsp; by Khatim</footer>
+<footer>FL.Slayer AI Agent Zero-Day Skills Roadmap &nbsp;|&nbsp; For authorized security research &amp; AI agent capability design only &nbsp;|&nbsp; by Khatim</footer>
 
 <script>
 const DOMAINS = [
 {
-  id:"foundations", title:"Systems & Low-Level Foundations", sub:"The bedrock skills every zero-day researcher must master first",
+  id:"foundations", title:"Systems & Low-Level Foundations", sub:"The bedrock capabilities every zero-day hunting AI agent must master first",
   color:"#3b82f6", icon:"🧠",
   skills:[
     {n:"001",name:"x86-64 Assembly Language",badge:"core",diff:3,desc:"Read, write and trace x86-64 assembly — registers, calling conventions, memory addressing, stack frames",tags:["assembly","x64","registers","ABI"],tools:["nasm","objdump","gdb","radare2"],details:["Understand all general-purpose registers and their roles in the System V ABI","Master the stack frame layout: RSP, RBP, local variables, saved registers","Read compiler output from GCC/Clang and understand optimization artifacts","Trace through function prologues/epilogues and calling conventions","Identify unsafe patterns: strcpy, memcpy without bounds, integer truncation"]},
@@ -213,7 +213,7 @@ const DOMAINS = [
   ]
 },
 {
-  id:"vuln-classes", title:"Vulnerability Classes", sub:"Every bug class you must master to discover novel zero-days",
+  id:"vuln-classes", title:"Vulnerability Classes", sub:"Every bug class the agent must master to discover novel zero-days",
   color:"#ef4444", icon:"💀",
   skills:[
     {n:"017",name:"Stack Buffer Overflow",badge:"core",diff:2,desc:"Classic but still found — off-by-ones, unsafe string functions, fixed-size stack buffers with user input",tags:["stack","overflow","ret-addr","ROP"],tools:["pwntools","ROPgadget","pwndbg"],details:["Identify target offset: cyclic pattern in pwntools to find EIP/RIP control offset","Classic control flow hijack: overwrite return address with shellcode or ROP chain","Off-by-one: single byte overflow into saved RBP — frame pointer overwrite technique","Safe string function audit: replace strcpy/sprintf/gets — find uses via grep/CodeQL","Stack cookie bypass: leak canary via format string, partial overwrite, or brute force (fork)"]},
