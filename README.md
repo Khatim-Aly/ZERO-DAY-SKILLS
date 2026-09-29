@@ -1,16 +1,16 @@
-# ⚡ FL.Slayer — Zero-Day Skills Roadmap
+# ⚡ FL.Slayer — AI Agent Zero-Day Skills Roadmap
 
-**A complete, interactive skill matrix for vulnerability research, zero-day hunting, red team operations, and elite bug bounty work.**
+**A complete, interactive capability matrix for an AI agent built around vulnerability research, zero-day hunting, red team operations, and elite bug bounty work.**
 
-> For authorized security research only.
+> For authorized security research and AI agent capability design only.
 
 ---
 
 ## 📖 Overview
 
-**Zero-Day Skills Roadmap** is a single-page, self-contained HTML application that maps out the full skill tree a security researcher needs to go from "understands how a computer works" to "finds and reports novel zero-day vulnerabilities."
+**AI Agent Zero-Day Skills Roadmap** is a single-page, self-contained HTML application that maps out the full capability tree an AI security-research agent needs to go from "understands how a computer works" to "finds and reports novel zero-day vulnerabilities."
 
-It's built as a browsable, filterable reference — not a tutorial you read top to bottom, but a matrix you consult, track progress against, and dig into domain by domain.
+It's built as a browsable, filterable reference — a capability spec / knowledge map you can consult when designing, scoping, or documenting what an autonomous or semi-autonomous security research agent should know, not a runnable tool and not step-by-step exploit instructions.
 
 | Metric | Count |
 |---|---|
@@ -75,27 +75,31 @@ Each of the 90 skills includes:
 Just open the file in any modern browser:
 
 ```bash
-git clone https://github.com/<your-username>/zero-day-skills-roadmap.git
-cd zero-day-skills-roadmap
-open zero-day-skills.html   # or double-click it
+git clone https://github.com/<your-username>/ai-agent-zero-day-skills-roadmap.git
+cd ai-agent-zero-day-skills-roadmap
+open ai-agent-zero-day-skills.html   # or double-click it
 ```
 
 No server, no build tools, no installation required.
 
 ## 🎯 Who This Is For
 
+- Teams designing or scoping an AI agent for authorized security research / bug bounty work
 - Security researchers moving from CTFs/bug bounty basics toward zero-day discovery
 - Red teamers who want a structured map of offensive tradecraft
-- Anyone building a personal study plan for vulnerability research
+- Anyone building a personal or agent training/study plan for vulnerability research
+
+## 🤖 A Note on "AI Agent"
+
+This repo frames the skill matrix as a **capability reference** for what an AI security-research agent would need to know — it is a knowledge map, not an autonomous tool. It contains no exploit code, no attack automation, and no runnable payloads. Turning any of these entries into working tooling (fuzzers, exploit chains, agent tool-calling pipelines, etc.) is a separate engineering effort, governed by the same legal/ethical constraints as human-operated tools below.
 
 ## ⚠️ Disclaimer
 
-This roadmap is provided strictly for **authorized security research, education, and professional red team work**. Techniques referenced here should only be applied to systems you own or are explicitly authorized to test. Misuse of this material may violate the Computer Fraud and Abuse Act (US), the Computer Misuse Act (UK), or equivalent laws in your jurisdiction.
+This roadmap is provided strictly for **authorized security research, education, professional red team work, and legitimate AI agent capability design**. Techniques referenced here should only be applied to systems you own or are explicitly authorized to test — whether by a human or an agent acting on your behalf. Misuse of this material may violate the Computer Fraud and Abuse Act (US), the Computer Misuse Act (UK), or equivalent laws in your jurisdiction.
 
 ## 👤 Author
 
 Created by **Khatim Ali**
 
 ## 📄 License
-
 MIT
